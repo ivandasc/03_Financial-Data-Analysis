@@ -1,4 +1,4 @@
-# Financial Data Analysis Project
+# Financial Data Analysis 
 
 ## Problem Statement
 You have been hired to analyze historical financial market data containing daily index information. The goal is to conduct exploratory analysis to understand variations in opening, closing, high, and low prices over time, as well as explore trading volume.
