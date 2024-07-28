@@ -1,0 +1,37 @@
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+import pydeck as pdk
+import gdown
+
+# Carregar o arquivo CSV do Google Drive
+url = 'https://drive.google.com/uc?id=1Tpf1XE96zBTh0AHK-4Rd3FwONY2Yf2T0'
+output = 'financial_data.csv'
+gdown.download(url, output, quiet=False)
+
+# Carregar os dados
+df = pd.read_csv('financial_data.csv')
+
+# Análise exploratória
+# Gráficos de tendências temporais
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=df['Date'], y=df['Open'], mode='lines', name='Open'))
+fig.add_trace(go.Scatter(x=df['Date'], y=df['Close'], mode='lines', name='Close'))
+fig.add_trace(go.Scatter(x=df['Date'], y=df['High'], mode='lines', name='High'))
+fig.add_trace(go.Scatter(x=df['Date'], y=df['Low'], mode='lines', name='Low'))
+fig.update_layout(title='Tendências Temporais',
+                  xaxis_title='Data',
+                  yaxis_title='Preço',
+                  legend=dict(x=0, y=1, traceorder='normal'))
+fig.show()
+
+# Gráfico 3D interativo
+fig_3d = px.scatter_3d(df, x='Open', y='Close', z='Volume', color='Date', title='Relação entre Preço de Abertura, Fechamento e Volume')
+fig_3d.show()
+
+# Tabela com resumo estatístico
+summary_table = df.describe().transpose()
+summary_table.reset_index(inplace=True)
+summary_table.rename(columns={'index': 'Variável'}, inplace=True)
+summary_table = summary_table.round(2)
+print(summary_table)
